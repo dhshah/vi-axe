@@ -14,7 +14,7 @@
     "declarationMap": true,
     "noEmit": true,
 
-    "types": ["vitest/globals"]
+    "types": ["node", "vitest/globals"]
   },
   "include": ["**/*.ts", "src/types/**/*.d.ts"],
   "$schema": "https://www.schemastore.org/tsconfig"

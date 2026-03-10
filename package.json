@@ -49,6 +49,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/vue": "^6.6.1",
     "@types/lodash.merge": "^4.6.9",
+    "@types/node": "^25.4.0",
     "@vue/test-utils": "^2.2.1",
     "husky": "^9.1.7",
     "jsdom": "^28.1.0",
