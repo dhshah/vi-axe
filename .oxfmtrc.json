@@ -1,4 +1,5 @@
 {
   "$schema": "./node_modules/oxfmt/schema.json",
-  "printWidth": 80
+  "printWidth": 80,
+  "ignorePatterns": ["dist", "node_modules", ".husky"]
 }

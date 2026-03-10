@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/oxlint/schema.json",
   "categories": {
     "correctness": "error",
     "suspicious": "warn",
@@ -14,5 +15,6 @@
       "files": ["__tests__/**/*.js", "**/*.test.js"],
       "plugins": ["vitest"]
     }
-  ]
+  ],
+  "ignorePatterns": ["dist", "node_modules", ".husky"]
 }
