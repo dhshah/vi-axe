@@ -1,7 +1,7 @@
 interface ViAxeMatchers<R = unknown> {
-  toHaveNoViolations: () => R
+  toHaveNoViolations: () => R;
 }
 
-declare module 'vitest' {
+declare module "vitest" {
   interface Matchers<T = any> extends ViAxeMatchers<T> {}
 }

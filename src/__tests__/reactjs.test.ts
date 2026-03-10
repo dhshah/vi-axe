@@ -1,4 +1,4 @@
-import { axe, toHaveNoViolations } from "../index.js";
+import { axe, toHaveNoViolations } from "../index";
 import { render } from "@testing-library/react";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
