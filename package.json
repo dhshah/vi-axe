@@ -17,6 +17,17 @@
   ],
   "type": "module",
   "main": "dist/vi-axe.js",
+  "types": "dist/vi-axe.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/vi-axe.d.ts",
+      "import": "./dist/vi-axe.js"
+    },
+    "./extend-expect": {
+      "types": "./dist/extend-expect.d.ts",
+      "import": "./dist/extend-expect.js"
+    }
+  },
   "scripts": {
     "prepare": "husky",
     "test": "vitest",

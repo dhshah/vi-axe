@@ -1,4 +1,3 @@
-import "./types/global.d.ts";
 import { styleText } from "node:util";
 
 import { ImpactValue, NodeResult, Result, RunOptions } from "axe-core";
@@ -40,12 +39,17 @@ interface MatcherResult {
   pass: boolean;
 }
 
+/** Vitest/Jest matcher object for toHaveNoViolations */
+interface ToHaveNoViolationsMatcher {
+  toHaveNoViolations(results: AxeResultsLike): MatcherResult;
+}
+
 /**
  * Custom Jest expect matcher, that can check aXe results for violations.
  * @param results requires an instance of aXe's results object
  * @returns returns Jest matcher object
  */
-const toHaveNoViolations = {
+const toHaveNoViolations: ToHaveNoViolationsMatcher = {
   toHaveNoViolations(results: AxeResultsLike): MatcherResult {
     if (results.violations === undefined) {
       throw new TypeError(
@@ -120,4 +124,4 @@ const toHaveNoViolations = {
 
 export type { AxeResultsLike };
 export { configureAxe, toHaveNoViolations };
-export const axe = configureAxe();
+export const axe: ReturnType<typeof configureAxe> = configureAxe();

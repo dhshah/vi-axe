@@ -10,4 +10,4 @@ point directly to `jest-axe/extend-expect`
 
 import { toHaveNoViolations } from "./index.js";
 
-expect.extend(toHaveNoViolations);
+expect.extend({ toHaveNoViolations });
