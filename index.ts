@@ -1,16 +1,44 @@
+/// <reference path="./types/global.d.ts" />
 import axeCore from "axe-core";
 import chalk from "chalk";
 import { matcherHint, printReceived } from "jest-matcher-utils";
 import merge from "lodash.merge";
 
+type AxeResults = axeCore.AxeResults;
+type Result = axeCore.Result;
+type NodeResult = axeCore.NodeResult;
+type RunOptions = axeCore.RunOptions;
+type ImpactValue = axeCore.ImpactValue;
+
+/** Minimal axe results shape accepted by the matcher (vi-axe allows toolOptions.impactLevels) */
+interface AxeResultsLike {
+  violations?: Result[];
+  toolOptions?: RunOptions & { impactLevels?: ImpactValue[] };
+}
+
+/** Global options passed to axe.configure (vi-axe uses rules array) */
+interface GlobalAxeOptions {
+  rules?: Array<{ id: string; enabled: boolean }>;
+  [key: string]: unknown;
+}
+
+/** Options for configureAxe: globalOptions plus runner options (impactLevels is vi-axe specific) */
+interface ConfigureAxeOptions {
+  globalOptions?: GlobalAxeOptions;
+  impactLevels?: ImpactValue[];
+}
+
+type HtmlInput = Element | string;
+type MountResult = [Element, () => void];
+
 const AXE_RULES_COLOR = axeCore.getRules(["cat.color"]);
 
 /**
  * Converts a HTML string or HTML element to a mounted HTML element.
- * @param {Element | string} a HTML element or a HTML string
- * @returns {[Element, function]} a HTML element and a function to restore the document
+ * @param html a HTML element or a HTML string
+ * @returns a HTML element and a function to restore the document
  */
-function mount(html) {
+function mount(html: HtmlInput): MountResult {
   if (isHTMLElement(html)) {
     if (document.body.contains(html)) {
       return [html, () => {}];
@@ -41,12 +69,10 @@ function mount(html) {
 /**
  * Small wrapper for axe-core#run that enables promises (required for Jest),
  * default options and injects html to be tested
- * @param {object} [options] default options to use in all instances
- * @param {object} [options.globalOptions] Global axe-core configuration (See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axeconfigure)
- * @param {object} [options.*] Any other property will be passed as the runner configuration (See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#options-parameter)
- * @returns {function} returns instance of axe
+ * @param options default options to use in all instances
+ * @returns returns instance of axe
  */
-function configureAxe(options = {}) {
+function configureAxe(options: ConfigureAxeOptions & RunOptions = {}) {
   const { globalOptions = {}, ...runnerOptions } = options;
 
   // Set the global configuration for axe-core
@@ -68,16 +94,19 @@ function configureAxe(options = {}) {
   /**
    * Small wrapper for axe-core#run that enables promises (required for Jest),
    * default options and injects html to be tested
-   * @param {string} html requires a html string to be injected into the body
-   * @param {object} [additionalOptions] aXe options to merge with default options
-   * @returns {promise} returns promise that will resolve with axe-core#run results object
+   * @param html a html string or element to be injected into the body
+   * @param additionalOptions aXe options to merge with default options
+   * @returns promise that will resolve with axe-core#run results object
    */
-  return function axe(html, additionalOptions = {}) {
+  return function axe(
+    html: HtmlInput,
+    additionalOptions: RunOptions = {},
+  ): Promise<AxeResults> {
     const [element, restore] = mount(html);
     const runOptions = merge({}, runnerOptions, additionalOptions);
 
     return new Promise((resolve, reject) => {
-      axeCore.run(element, runOptions, (err, results) => {
+      axeCore.run(element, runOptions, (err: Error | null, results: AxeResults) => {
         restore();
         if (err) {
           reject(err);
@@ -90,10 +119,10 @@ function configureAxe(options = {}) {
 
 /**
  * Checks if the HTML parameter provided is a HTML element.
- * @param {Element} a HTML element or a HTML string
- * @returns {boolean} true or false
+ * @param html a HTML element or a HTML string
+ * @returns true or false
  */
-function isHTMLElement(html) {
+function isHTMLElement(html: HtmlInput): html is Element {
   return (
     Boolean(html) &&
     typeof html === "object" &&
@@ -103,44 +132,55 @@ function isHTMLElement(html) {
 
 /**
  * Checks that the HTML parameter provided is a string that contains HTML.
- * @param {string} a HTML element or a HTML string
- * @returns {boolean} true or false
+ * @param html a HTML element or a HTML string
+ * @returns true or false
  */
-function isHTMLString(html) {
+function isHTMLString(html: HtmlInput): html is string {
   return typeof html === "string" && /(<([^>]+)>)/i.test(html);
 }
 
 /**
  * Filters all violations by user impact
- * @param {object} violations result of the accessibilty check by axe
- * @param {array} impactLevels defines which impact level should be considered (e.g ['critical'])
- * The level of impact can be "minor", "moderate", "serious", or "critical".
- * @returns {object} violations filtered by impact level
+ * @param violations result of the accessibilty check by axe
+ * @param impactLevels defines which impact level should be considered (e.g ['critical'])
+ * @returns violations filtered by impact level
  */
-function filterViolations(violations, impactLevels) {
+function filterViolations(
+  violations: Result[],
+  impactLevels: ImpactValue[] | undefined,
+): Result[] {
   if (impactLevels && impactLevels.length > 0) {
-    return violations.filter((v) => impactLevels.includes(v.impact));
+    return violations.filter(
+      (violation) =>
+        violation.impact !== undefined && violation.impact !== null && impactLevels.includes(violation.impact),
+    );
   }
   return violations;
 }
 
+/** Matcher result returned by toHaveNoViolations */
+interface MatcherResult {
+  actual: Result[];
+  message: () => string | undefined;
+  pass: boolean;
+}
+
 /**
  * Custom Jest expect matcher, that can check aXe results for violations.
- * @param {object} object requires an instance of aXe's results object
- * (https://github.com/dequelabs/axe-core/blob/develop-2x/doc/API.md#results-object)
- * @returns {object} returns Jest matcher object
+ * @param results requires an instance of aXe's results object
+ * @returns returns Jest matcher object
  */
 const toHaveNoViolations = {
-  toHaveNoViolations(results) {
-    if (results.violations === void 0) {
+  toHaveNoViolations(results: AxeResultsLike): MatcherResult {
+    if (results.violations === undefined) {
       throw new TypeError(
         "Unexpected aXe results object. No violations property found.\nDid you change the `reporter` in your aXe configuration?",
       );
     }
 
     const { toolOptions } = results;
-    let impactLevels = [];
-    if (toolOptions && toolOptions.impactLevels) {
+    let impactLevels: ImpactValue[] = [];
+    if (toolOptions && "impactLevels" in toolOptions && toolOptions.impactLevels) {
       ({ impactLevels } = toolOptions);
     }
     const filteredViolations = filterViolations(
@@ -148,18 +188,18 @@ const toHaveNoViolations = {
       impactLevels,
     );
 
-    const reporter = (violationsToFormat) => {
+    const reporter = (violationsToFormat: Result[]): string => {
       if (violationsToFormat.length === 0) {
-        return [];
+        return "";
       }
 
       const lineBreak = "\n\n";
       const horizontalLine = "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500";
 
       return violationsToFormat
-        .map((violation) => {
+        .map((violation: Result) => {
           const errorBody = violation.nodes
-            .map((node) => {
+            .map((node: NodeResult) => {
               const selector = node.target.join(", ");
               const expectedText = `Expected the HTML found at $('${selector}') to have no violations:${lineBreak}`;
               let helpUrlText = "";
@@ -173,7 +213,7 @@ const toHaveNoViolations = {
                 `Received:${lineBreak}` +
                 printReceived(`${violation.help} (${violation.id})`) +
                 lineBreak +
-                chalk.yellow(node.failureSummary) +
+                chalk.yellow(node.failureSummary ?? "") +
                 lineBreak +
                 helpUrlText
               );
@@ -186,7 +226,7 @@ const toHaveNoViolations = {
     };
 
     const formatedViolations = reporter(filteredViolations);
-    const pass = formatedViolations.length === 0;
+    const pass = formatedViolations.length === 0; // Empty string = no violations
 
     const message = () => {
       if (pass) {
@@ -199,5 +239,6 @@ const toHaveNoViolations = {
   },
 };
 
+export type { AxeResultsLike };
 export { configureAxe, toHaveNoViolations };
 export const axe = configureAxe();

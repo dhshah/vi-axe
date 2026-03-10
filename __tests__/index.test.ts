@@ -1,3 +1,4 @@
+import type { AxeResultsLike } from "../index.js";
 import { axe, configureAxe, toHaveNoViolations } from "../index.js";
 
 describe("jest-axe", () => {
@@ -87,6 +88,7 @@ describe("jest-axe", () => {
 
     it("throws if input is not a string, vue element, react element, or react testing library render", () => {
       expect(() => {
+        // @ts-expect-error - invalid test case
         axe({});
       }).toThrow("html parameter should be an HTML string or an HTML element");
     });
@@ -125,7 +127,7 @@ describe("jest-axe", () => {
     });
   });
 
-  describe(toHaveNoViolations, () => {
+  describe("toHaveNoViolations", () => {
     const failingAxeResults = {
       violations: [
         {
@@ -226,26 +228,26 @@ describe("jest-axe", () => {
 
     it("returns pass as true when no violations are present", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
-      const matcherOutput = matcherFunction(successfulAxeResults);
+      const matcherOutput = matcherFunction(successfulAxeResults as AxeResultsLike);
       expect(matcherOutput.pass).toBeTruthy();
     });
 
     it("returns same violations that are passed in the results object", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
-      const matcherOutput = matcherFunction(failingAxeResults);
+      const matcherOutput = matcherFunction(failingAxeResults as AxeResultsLike);
       expect(matcherOutput.actual).toBe(failingAxeResults.violations);
     });
 
     it("returns correctly formatted message when violations are present", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
-      const matcherOutput = matcherFunction(failingAxeResults);
+      const matcherOutput = matcherFunction(failingAxeResults as AxeResultsLike);
       expectTypeOf(matcherOutput.message).toBeFunction();
       expect(matcherOutput.message()).toMatchSnapshot();
     });
 
     it("returns pass as false when violations are present", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
-      const matcherOutput = matcherFunction(failingAxeResults);
+      const matcherOutput = matcherFunction(failingAxeResults as AxeResultsLike);
       expect(matcherOutput.pass).toBeFalsy();
     });
 
@@ -345,8 +347,8 @@ describe("jest-axe", () => {
 
       it("should report custom rules", async () => {
         const check = {
-          evaluate(node) {
-            return Object.hasOwn(node.dataset, "demoRule");
+          evaluate(node: HTMLElement) {
+            return Object.hasOwn((node).dataset, "demoRule");
           },
           id: "demo-has-data",
           metadata: {

@@ -23,8 +23,8 @@
     "build": "vite build",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "lint": "oxlint .",
-    "lint:fix": "oxlint --fix ."
+    "lint": "oxlint --type-aware --type-check",
+    "lint:fix": "oxlint --fix"
   },
   "dependencies": {
     "axe-core": "4.10.2",
@@ -35,12 +35,14 @@
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
     "@testing-library/vue": "^6.6.1",
+    "@types/lodash.merge": "^4.6.9",
     "@vue/test-utils": "^2.2.1",
     "husky": "^9.1.7",
     "jsdom": "^28.1.0",
     "lint-staged": "^15.4.3",
     "oxfmt": "^0.36.0",
     "oxlint": "^1.52.0",
+    "oxlint-tsgolint": "^0.16.0",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

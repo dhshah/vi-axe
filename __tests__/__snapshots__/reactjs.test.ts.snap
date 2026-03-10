@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`[object Object] > renders a react testing library container correctly 1`] = `
+exports[`React > renders a react testing library container correctly 1`] = `
 [Error: expect(received).toHaveNoViolations(expected)
 
 Expected the HTML found at $('img') to have no violations:
@@ -22,7 +22,7 @@ You can find more information on this issue here:
 https://dequeuniversity.com/rules/axe/4.10/image-alt?application=axeAPI]
 `;
 
-exports[`[object Object] > renders correctly 1`] = `
+exports[`React > renders correctly 1`] = `
 [Error: expect(received).toHaveNoViolations(expected)
 
 Expected the HTML found at $('img') to have no violations:

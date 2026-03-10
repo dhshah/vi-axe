@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["vitest/globals"]
   },
+  "include": ["**/*.ts", "types/**/*.d.ts"],
   "$schema": "https://www.schemastore.org/tsconfig"
 }

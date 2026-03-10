@@ -10,11 +10,18 @@
     "nursery": "off"
   },
   "plugins": ["unicorn"],
+  "ignorePatterns": ["dist", "node_modules", ".husky"],
+  "rules": {
+    "unicorn/filename-case": "off",
+    "unicorn/no-null": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "sort-keys": "off",
+    "max-lines-per-function": "off"
+  },
   "overrides": [
     {
       "files": ["__tests__/**/*.js", "**/*.test.js"],
       "plugins": ["vitest"]
     }
-  ],
-  "ignorePatterns": ["dist", "node_modules", ".husky"]
+  ]
 }

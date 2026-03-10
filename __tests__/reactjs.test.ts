@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 
 expect.extend(toHaveNoViolations);
 
-describe(React, () => {
+describe("React", () => {
   test("renders correctly", async () => {
     const element = React.createElement("img", { src: "#" });
     const html = ReactDOMServer.renderToString(element);
