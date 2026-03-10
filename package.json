@@ -38,7 +38,8 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint --type-aware --type-check",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "knip": "knip"
   },
   "dependencies": {
     "axe-core": "4.10.2",
@@ -50,14 +51,16 @@
     "@testing-library/vue": "^6.6.1",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^25.4.0",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "@vue/test-utils": "^2.2.1",
     "husky": "^9.1.7",
     "jsdom": "^28.1.0",
+    "knip": "^5.86.0",
     "lint-staged": "^15.4.3",
     "oxfmt": "^0.36.0",
     "oxlint": "^1.52.0",
     "oxlint-tsgolint": "^0.16.0",
-    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.9.3",
