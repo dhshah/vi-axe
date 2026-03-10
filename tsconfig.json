@@ -12,6 +12,7 @@
     "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
+    "noEmit": true,
 
     "types": ["vitest/globals"]
   },

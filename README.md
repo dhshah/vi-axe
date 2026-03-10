@@ -1,10 +1,11 @@
-# jest-axe
+# vi-axe [A modern Fork / Rewrite of jest-axe]
 
-[![npm version](https://img.shields.io/npm/v/jest-axe.svg)](http://npm.im/jest-axe)
-![node](https://img.shields.io/node/v/jest-axe)
-[![Repository CI Status](https://github.com/nickcolley/jest-axe/workflows/test/badge.svg)](https://github.com/nickcolley/jest-axe/actions?query=workflow%3Atest)
+[![npm version](https://img.shields.io/npm/v/vi-axe.svg)](http://npm.im/vi-axe)
+![node](https://img.shields.io/node/v/vi-axe)
 
-Custom [Jest][Jest] matcher for [axe](https://github.com/dequelabs/axe-core) for testing accessibility
+# DO NOT USE THIS AS IT IS NOW.
+
+Custom [Vi][Vi] matcher for [axe](https://github.com/dequelabs/axe-core) for testing accessibility
 
 ## ⚠️✋ This project does not guarantee that what you build is accessible.
 
