@@ -1,8 +1,9 @@
 import "./types/global.d.ts";
+import { styleText } from "node:util";
 
 import { ImpactValue, NodeResult, Result, RunOptions } from "axe-core";
-import { styleText } from "node:util";
 import { matcherHint, printReceived } from "jest-matcher-utils";
+
 import { configureAxe } from "./axe-utils";
 
 /** Minimal axe results shape accepted by the matcher (vi-axe allows toolOptions.impactLevels) */

@@ -16,6 +16,7 @@
     "unicorn/no-null": "off",
     "unicorn/consistent-function-scoping": "off",
     "sort-keys": "off",
+    "sort-imports": "off",
     "max-lines-per-function": "off"
   },
   "overrides": [

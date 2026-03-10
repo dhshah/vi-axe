@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`index > fails when violations are found 1`] = `
+[Error: expect(received).toHaveNoViolations(expected)
+
+Expected the HTML found at $('a') to have no violations:
+
+<a href="#"></a>
+
+Received:
+
+"Links must have discernible text (link-name)"
+
+Fix all of the following:
+  Element is in tab order and does not have accessible text
+
+Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute
+
+You can find more information on this issue here: 
+https://dequeuniversity.com/rules/axe/4.10/link-name?application=axeAPI]
+`;
