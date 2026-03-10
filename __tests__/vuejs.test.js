@@ -1,6 +1,6 @@
+import { axe, toHaveNoViolations } from "../index.js";
 import { render } from "@testing-library/vue";
 import { mount } from "@vue/test-utils";
-import { axe, toHaveNoViolations } from "../index.js";
 
 const Image = {
   data: () => ({ src: "#" }),
