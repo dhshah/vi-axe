@@ -54,8 +54,7 @@
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
       "oxlint --fix",
-      "oxfmt",
-      "git add"
+      "oxfmt"
     ]
   },
   "engines": {
