@@ -77,8 +77,8 @@ describe("configureAxe", () => {
     const axe = configureAxe();
     const html = '<div style="color: red; background: red;">Low contrast</div>';
     const results = await axe(html);
-    const colorViolations = results.violations.filter((v) =>
-      ["color-contrast", "color-contrast-enhanced"].includes(v.id),
+    const colorViolations = results.violations.filter((violation) =>
+      ["color-contrast", "color-contrast-enhanced"].includes(violation.id),
     );
     expect(colorViolations).toHaveLength(0);
   });

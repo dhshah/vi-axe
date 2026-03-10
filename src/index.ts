@@ -89,17 +89,7 @@ const toHaveNoViolations: ToHaveNoViolationsMatcher = {
               if (violation.helpUrl) {
                 helpUrlText = `You can find more information on this issue here: \n${styleText("blue", violation.helpUrl)}`;
               }
-              return (
-                expectedText +
-                styleText("gray", node.html) +
-                lineBreak +
-                `Received:${lineBreak}` +
-                printReceived(`${violation.help} (${violation.id})`) +
-                lineBreak +
-                styleText("yellow", node.failureSummary ?? "") +
-                lineBreak +
-                helpUrlText
-              );
+              return `${expectedText}${styleText("gray", node.html)}${lineBreak}Received:${lineBreak}${printReceived(`${violation.help} (${violation.id})`)}${lineBreak}${styleText("yellow", node.failureSummary ?? "")}${lineBreak}${helpUrlText}`;
             })
             .join(lineBreak);
 
@@ -109,7 +99,8 @@ const toHaveNoViolations: ToHaveNoViolationsMatcher = {
     };
 
     const formatedViolations = reporter(filteredViolations);
-    const pass = formatedViolations.length === 0; // Empty string = no violations
+    // Empty string = no violations
+    const pass = formatedViolations.length === 0;
 
     const message = () => {
       if (pass) {
