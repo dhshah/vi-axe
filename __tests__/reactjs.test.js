@@ -1,8 +1,7 @@
-const React = require("react");
-const ReactDOMServer = require("react-dom/server");
-const { render } = require("@testing-library/react");
-
-const { axe, toHaveNoViolations } = require("../index");
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { render } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "../index.js";
 
 expect.extend(toHaveNoViolations);
 

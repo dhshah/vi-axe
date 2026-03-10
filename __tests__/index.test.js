@@ -1,4 +1,4 @@
-const { configureAxe, axe, toHaveNoViolations } = require("../index.js");
+import { configureAxe, axe, toHaveNoViolations } from "../index.js";
 
 describe("jest-axe", () => {
   describe("axe", () => {

@@ -1,8 +1,7 @@
-"use strict";
-const axeCore = require("axe-core");
-const merge = require("lodash.merge");
-const chalk = require("chalk");
-const { printReceived, matcherHint } = require("jest-matcher-utils");
+import axeCore from "axe-core";
+import merge from "lodash.merge";
+import chalk from "chalk";
+import { printReceived, matcherHint } from "jest-matcher-utils";
 
 const AXE_RULES_COLOR = axeCore.getRules(["cat.color"]);
 
@@ -192,8 +191,5 @@ const toHaveNoViolations = {
   },
 };
 
-module.exports = {
-  configureAxe,
-  axe: configureAxe(),
-  toHaveNoViolations,
-};
+export { configureAxe, toHaveNoViolations };
+export const axe = configureAxe();

@@ -1,7 +1,6 @@
-const { mount } = require("@vue/test-utils");
-const { render } = require("@testing-library/vue");
-
-const { axe, toHaveNoViolations } = require("../index");
+import { mount } from "@vue/test-utils";
+import { render } from "@testing-library/vue";
+import { axe, toHaveNoViolations } from "../index.js";
 
 const Image = {
   data: () => ({ src: "#" }),
