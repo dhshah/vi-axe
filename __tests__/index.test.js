@@ -1,7 +1,7 @@
 import { axe, configureAxe, toHaveNoViolations } from "../index.js";
 
 describe("jest-axe", () => {
-  describe("axe", () => {
+  describe(axe, () => {
     const failingHtmlExample = `
      <html>
        <body>
@@ -52,12 +52,13 @@ describe("jest-axe", () => {
 
     it("returns an axe results object", async () => {
       const results = await axe(failingHtmlExample);
-      expect(typeof results).toBe("object");
-      expect(typeof results.violations).toBe("object");
+      expectTypeOf(results).toBeObject();
+      expectTypeOf(results.violations).toBeObject();
     });
 
     it("should not mutate the content of document.body permanently", async () => {
-      const el = document.body.append(document.createElement("div"));
+      const el = document.createElement("div");
+      document.body.append(el);
       await axe(goodHtmlExample);
       expect(document.body.childElementCount).toBe(1);
       expect(document.body.firstChild).toEqual(el);
@@ -124,24 +125,17 @@ describe("jest-axe", () => {
     });
   });
 
-  describe("toHaveNoViolations", () => {
+  describe(toHaveNoViolations, () => {
     const failingAxeResults = {
       violations: [
         {
-          id: "image-alt",
-          impact: "critical",
-          tags: [
-            "cat.text-alternatives",
-            "wcag2a",
-            "wcag111",
-            "section508",
-            "section508.22.a",
-          ],
           description:
             "Ensures <img> elements have alternate text or a role of none or presentation",
           help: "Images must have alternate text",
           helpUrl:
             "https://dequeuniversity.com/rules/axe/2.6/image-alt?application=axeAPI",
+          id: "image-alt",
+          impact: "critical",
           nodes: [
             {
               any: [
@@ -201,6 +195,13 @@ describe("jest-axe", () => {
                 'Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible\n  Element has no title attribute or the title attribute is empty\n  Element\'s default semantics were not overridden with role="presentation"\n  Element\'s default semantics were not overridden with role="none"',
             },
           ],
+          tags: [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag111",
+            "section508",
+            "section508.22.a",
+          ],
         },
       ],
     };
@@ -211,7 +212,7 @@ describe("jest-axe", () => {
     it("returns a jest matcher object with object", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
       expect(matcherFunction).toBeDefined();
-      expect(typeof matcherFunction).toBe("function");
+      expectTypeOf(matcherFunction).toBeFunction();
     });
 
     it("throws error if non axe results object is passed", () => {
@@ -226,7 +227,7 @@ describe("jest-axe", () => {
     it("returns pass as true when no violations are present", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
       const matcherOutput = matcherFunction(successfulAxeResults);
-      expect(matcherOutput.pass).toBe(true);
+      expect(matcherOutput.pass).toBeTruthy();
     });
 
     it("returns same violations that are passed in the results object", () => {
@@ -238,14 +239,14 @@ describe("jest-axe", () => {
     it("returns correctly formatted message when violations are present", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
       const matcherOutput = matcherFunction(failingAxeResults);
-      expect(typeof matcherOutput.message).toBe("function");
+      expectTypeOf(matcherOutput.message).toBeFunction();
       expect(matcherOutput.message()).toMatchSnapshot();
     });
 
     it("returns pass as false when violations are present", () => {
       const matcherFunction = toHaveNoViolations.toHaveNoViolations;
       const matcherOutput = matcherFunction(failingAxeResults);
-      expect(matcherOutput.pass).toBe(false);
+      expect(matcherOutput.pass).toBeFalsy();
     });
 
     it("returns properly formatted text with more complex example", async () => {
@@ -274,7 +275,7 @@ describe("jest-axe", () => {
       it("should demonstrate this matcher`s usage", async () => {
         const render = () => '<img src="#"/>';
 
-        // pass anything that outputs html to axe
+        // Pass anything that outputs html to axe
         const html = render();
 
         const results = await axe(html);
@@ -294,12 +295,12 @@ describe("jest-axe", () => {
           </div>
         `;
 
-        // pass anything that outputs html to axe
+        // Pass anything that outputs html to axe
         const html = render();
 
         const results = await axe(html, {
           rules: {
-            // for demonstration only, don't disable rules that need fixing.
+            // For demonstration only, don't disable rules that need fixing.
             "image-alt": { enabled: false },
             region: { enabled: false },
           },
@@ -313,7 +314,7 @@ describe("jest-axe", () => {
 
       const configuredAxe = configureAxe({
         rules: {
-          // for demonstration only, don't disable rules that need fixing.
+          // For demonstration only, don't disable rules that need fixing.
           "image-alt": { enabled: false },
           region: { enabled: false },
         },
@@ -322,7 +323,7 @@ describe("jest-axe", () => {
       const exportedAxe = configuredAxe;
 
       // Individual test file (test.js)
-      const axe = exportedAxe; // require('./axe-helper.js')
+      const axe = exportedAxe; // Require('./axe-helper.js')
 
       expect.extend(toHaveNoViolations);
 
@@ -333,7 +334,7 @@ describe("jest-axe", () => {
           </div>
         `;
 
-        // pass anything that outputs html to axe
+        // Pass anything that outputs html to axe
         const html = render();
 
         expect(await axe(html)).toHaveNoViolations();
@@ -344,10 +345,10 @@ describe("jest-axe", () => {
 
       it("should report custom rules", async () => {
         const check = {
-          id: "demo-has-data",
           evaluate(node) {
             return Object.hasOwn(node.dataset, "demoRule");
           },
+          id: "demo-has-data",
           metadata: {
             impact: "serious",
             messages: {
@@ -356,21 +357,21 @@ describe("jest-axe", () => {
           },
         };
         const rule = {
-          id: "demo-rule",
-          selector: ".demo",
-          enabled: false,
-          tags: ["demo-rules"],
           any: ["demo-has-data"],
+          enabled: false,
+          id: "demo-rule",
           metadata: {
             description: "Demo check",
             help: "Demo check",
           },
+          selector: ".demo",
+          tags: ["demo-rules"],
         };
 
         const configuredAxe = configureAxe({
           globalOptions: {
-            rules: [rule],
             checks: [check],
+            rules: [rule],
           },
           rules: {
             "demo-rule": { enabled: true },
@@ -410,7 +411,7 @@ describe("jest-axe", () => {
           </div>
         `;
 
-        // pass anything that outputs html to axe
+        // Pass anything that outputs html to axe
         const html = render();
 
         expect(await axe(html)).toHaveNoViolations();

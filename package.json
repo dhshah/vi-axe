@@ -19,8 +19,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky",
-    "test": "npm run lint && npm run jest",
-    "jest": "FORCE_COLOR=0 jest",
+    "test": "vitest",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint .",
@@ -37,14 +36,14 @@
     "@testing-library/vue": "^6.6.1",
     "@vue/test-utils": "^2.2.1",
     "husky": "^9.1.7",
-    "jest": "^29.2.2",
-    "jest-environment-jsdom": "^29.2.2",
+    "jsdom": "^28.1.0",
     "lint-staged": "^15.4.3",
     "oxfmt": "^0.36.0",
     "oxlint": "^1.52.0",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "vitest": "^4.0.18",
     "vue": "^3.2.41"
   },
   "lint-staged": {
@@ -53,15 +52,6 @@
       "oxfmt",
       "git add"
     ]
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "testEnvironmentOptions": {
-      "customExportConditions": [
-        "node",
-        "node-addons"
-      ]
-    }
   },
   "engines": {
     "node": ">= 16.0.0"
