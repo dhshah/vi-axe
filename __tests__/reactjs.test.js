@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOMServer from "react-dom/server";
 import { render } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "../index.js";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 
 expect.extend(toHaveNoViolations);
 

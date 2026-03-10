@@ -1,4 +1,4 @@
-import { configureAxe, axe, toHaveNoViolations } from "../index.js";
+import { axe, configureAxe, toHaveNoViolations } from "../index.js";
 
 describe("jest-axe", () => {
   describe("axe", () => {
@@ -57,7 +57,7 @@ describe("jest-axe", () => {
     });
 
     it("should not mutate the content of document.body permanently", async () => {
-      const el = document.body.appendChild(document.createElement("div"));
+      const el = document.body.append(document.createElement("div"));
       await axe(goodHtmlExample);
       expect(document.body.childElementCount).toBe(1);
       expect(document.body.firstChild).toEqual(el);
@@ -219,7 +219,7 @@ describe("jest-axe", () => {
       expect(() => {
         matcherFunction({});
       }).toThrow(
-        "Unexpected aXe results object. No violations property found.\nDid you change the `reporter` in your aXe configuration?"
+        "Unexpected aXe results object. No violations property found.\nDid you change the `reporter` in your aXe configuration?",
       );
     });
 
@@ -346,7 +346,7 @@ describe("jest-axe", () => {
         const check = {
           id: "demo-has-data",
           evaluate(node) {
-            return node.hasAttribute("data-demo-rule");
+            return Object.hasOwn(node.dataset, "demoRule");
           },
           metadata: {
             impact: "serious",
