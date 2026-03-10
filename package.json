@@ -16,16 +16,19 @@
     "dist"
   ],
   "type": "module",
-  "main": "dist/vi-axe.js",
-  "types": "dist/vi-axe.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/vi-axe.d.ts",
-      "import": "./dist/vi-axe.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./extend-expect": {
       "types": "./dist/extend-expect.d.ts",
       "import": "./dist/extend-expect.js"
+    },
+    "./typings": {
+      "types": "./dist/typings.d.ts"
     }
   },
   "scripts": {
