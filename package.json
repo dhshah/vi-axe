@@ -52,7 +52,7 @@
     "vue": "^3.2.41"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts,jsx,tsx}": [
       "oxlint --fix",
       "oxfmt",
       "git add"
