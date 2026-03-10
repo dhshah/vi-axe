@@ -1,14 +1,12 @@
 import { render } from "@testing-library/vue";
 import { mount } from "@vue/test-utils";
 
-import { axe, toHaveNoViolations } from "../index.js";
+import { axe } from "../index.js";
 
 const Image = {
   data: () => ({ src: "#" }),
   template: '<img id="test-image" :src="src" />',
 };
-
-expect.extend(toHaveNoViolations);
 
 describe("Vue", () => {
   it("renders correctly", async () => {

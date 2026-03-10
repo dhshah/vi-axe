@@ -17,12 +17,6 @@
   ],
   "type": "module",
   "main": "dist/vi-axe.js",
-  "exports": {
-    ".": {
-      "import": "./dist/vi-axe.js",
-      "require": "./dist/vi-axe.cjs"
-    }
-  },
   "scripts": {
     "prepare": "husky",
     "test": "vitest",

@@ -2,9 +2,7 @@ import { render } from "@testing-library/react";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 
-import { axe, toHaveNoViolations } from "../index";
-
-expect.extend(toHaveNoViolations);
+import { axe } from "../index";
 
 describe("React", () => {
   test("renders correctly", async () => {

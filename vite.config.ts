@@ -6,6 +6,7 @@ export default defineConfig({
       entry: "src/index.ts",
       name: "vi-axe",
       fileName: "vi-axe",
+      formats: ["es"],
     },
     rollupOptions: {
       external: ["node:util"],
