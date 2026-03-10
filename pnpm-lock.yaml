@@ -12,8 +12,8 @@ importers:
         specifier: 4.10.2
         version: 4.10.2
       jest-matcher-utils:
-        specifier: 29.2.2
-        version: 29.2.2
+        specifier: 29.7.0
+        version: 29.7.0
       lodash.merge:
         specifier: 4.6.2
         version: 4.6.2
@@ -1754,8 +1754,8 @@ packages:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  jest-matcher-utils@29.2.2:
-    resolution: {integrity: sha512-4DkJ1sDPT+UX2MR7Y3od6KtvRi9Im1ZGLGgdLFLm4lPexbTaCgJW5NN3IOXlQHF7NSHY/VHhflQ+WoKtD/vyCw==}
+  jest-matcher-utils@29.7.0:
+    resolution: {integrity: sha512-sBkD+Xi9DtcChsI3L3u0+N0opgPYnCRPtGcQYrgXmR+hmt/fYfWAL0xRXYU8eWOdfuLgBe0YCW3AFtnRLagq/g==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   jiti@2.6.1:
@@ -3693,7 +3693,7 @@ snapshots:
 
   jest-get-type@29.6.3: {}
 
-  jest-matcher-utils@29.2.2:
+  jest-matcher-utils@29.7.0:
     dependencies:
       chalk: 4.1.2
       jest-diff: 29.7.0
