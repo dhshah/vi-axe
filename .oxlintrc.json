@@ -8,9 +8,7 @@
     "restriction": "off",
     "nursery": "off"
   },
-  "plugins": [
-    "unicorn"
-  ],
+  "plugins": ["unicorn"],
   "overrides": [
     {
       "files": ["__tests__/**/*.js", "**/*.test.js"],
