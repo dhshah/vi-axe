@@ -1,6 +1,6 @@
 /// <reference path="./types/global.d.ts" />
 import axeCore from "axe-core";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { matcherHint, printReceived } from "jest-matcher-utils";
 import merge from "lodash.merge";
 
@@ -106,13 +106,17 @@ function configureAxe(options: ConfigureAxeOptions & RunOptions = {}) {
     const runOptions = merge({}, runnerOptions, additionalOptions);
 
     return new Promise((resolve, reject) => {
-      axeCore.run(element, runOptions, (err: Error | null, results: AxeResults) => {
-        restore();
-        if (err) {
-          reject(err);
-        }
-        resolve(results);
-      });
+      axeCore.run(
+        element,
+        runOptions,
+        (err: Error | null, results: AxeResults) => {
+          restore();
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        },
+      );
     });
   };
 }
@@ -152,7 +156,9 @@ function filterViolations(
   if (impactLevels && impactLevels.length > 0) {
     return violations.filter(
       (violation) =>
-        violation.impact !== undefined && violation.impact !== null && impactLevels.includes(violation.impact),
+        violation.impact !== undefined &&
+        violation.impact !== null &&
+        impactLevels.includes(violation.impact),
     );
   }
   return violations;
@@ -180,7 +186,11 @@ const toHaveNoViolations = {
 
     const { toolOptions } = results;
     let impactLevels: ImpactValue[] = [];
-    if (toolOptions && "impactLevels" in toolOptions && toolOptions.impactLevels) {
+    if (
+      toolOptions &&
+      "impactLevels" in toolOptions &&
+      toolOptions.impactLevels
+    ) {
       ({ impactLevels } = toolOptions);
     }
     const filteredViolations = filterViolations(
@@ -204,16 +214,16 @@ const toHaveNoViolations = {
               const expectedText = `Expected the HTML found at $('${selector}') to have no violations:${lineBreak}`;
               let helpUrlText = "";
               if (violation.helpUrl) {
-                helpUrlText = `You can find more information on this issue here: \n${chalk.blue(violation.helpUrl)}`;
+                helpUrlText = `You can find more information on this issue here: \n${styleText("blue", violation.helpUrl)}`;
               }
               return (
                 expectedText +
-                chalk.grey(node.html) +
+                styleText("gray", node.html) +
                 lineBreak +
                 `Received:${lineBreak}` +
                 printReceived(`${violation.help} (${violation.id})`) +
                 lineBreak +
-                chalk.yellow(node.failureSummary ?? "") +
+                styleText("yellow", node.failureSummary ?? "") +
                 lineBreak +
                 helpUrlText
               );
