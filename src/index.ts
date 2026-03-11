@@ -1,9 +1,16 @@
 import { styleText } from "node:util";
 
 import { ImpactValue, NodeResult, Result, RunOptions } from "axe-core";
-import { matcherHint, printReceived } from "jest-matcher-utils";
 
 import { configureAxe } from "./axe-utils";
+
+function matcherHint(name: string): string {
+  return `expect(received).${name.replace(/^\./, "")}(expected)`;
+}
+
+function printReceived(value: string): string {
+  return `"${value}"`;
+}
 
 /** Minimal axe results shape accepted by the matcher (vi-axe allows toolOptions.impactLevels) */
 interface AxeResultsLike {
