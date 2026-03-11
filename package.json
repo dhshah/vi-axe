@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "axe-core": "4.11.1",
-    "jest-matcher-utils": "30.3.0",
     "lodash.merge": "4.6.2"
   },
   "devDependencies": {
