@@ -1,5 +1,3 @@
-import fs from "node:fs";
-
 import unpluginIsolatedDecl from "unplugin-isolated-decl/vite";
 import { defineConfig } from "vite";
 
@@ -16,13 +14,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [
-    unpluginIsolatedDecl(),
-    {
-      name: "export typings.d.ts",
-      closeBundle() {
-        fs.copyFileSync("src/typings.d.ts", "dist/typings.d.ts");
-      },
-    },
-  ],
+  plugins: [unpluginIsolatedDecl()],
 });

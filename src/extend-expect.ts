@@ -10,4 +10,10 @@ point directly to `jest-axe/extend-expect`
 
 import { toHaveNoViolations } from "./index.js";
 
+declare module "vitest" {
+  interface Assertion<TReturnType = unknown> {
+    toHaveNoViolations(): TReturnType;
+  }
+}
+
 expect.extend(toHaveNoViolations);
