@@ -26,9 +26,6 @@
     "./extend-expect": {
       "types": "./dist/extend-expect.d.ts",
       "import": "./dist/extend-expect.js"
-    },
-    "./typings": {
-      "types": "./dist/typings.d.ts"
     }
   },
   "scripts": {
