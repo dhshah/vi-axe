@@ -10,4 +10,13 @@ point directly to `jest-axe/extend-expect`
 
 import { toHaveNoViolations } from "./index.js";
 
-expect.extend(toHaveNoViolations);
+interface AxeMatchers<TReturn = unknown> {
+  toHaveNoViolations: () => TReturn;
+}
+
+declare module "vitest" {
+  // oxlint-disable-next-line id-length
+  interface Matchers<T = any> extends AxeMatchers<T> {}
+}
+
+expect.extend(toHaveNoViolations as Parameters<typeof expect.extend>[0]);
