@@ -47,8 +47,8 @@
     "lodash.merge": "4.6.2"
   },
   "devDependencies": {
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/vue": "^6.6.1",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/vue": "^8.0.0",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^25.4.0",
     "@types/react": "^18.3.28",
