@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # push commits, tags, and create GitHub releases
+  contents: write # push branch and create tags
+  pull-requests: write # create pull requests
   id-token: write # npm trusted publisher (OIDC provenance)
 
 jobs:
