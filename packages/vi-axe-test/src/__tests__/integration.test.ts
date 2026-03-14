@@ -44,4 +44,31 @@ describe("vi-axe integration (consuming built dist)", () => {
     const results = await customAxe(html);
     expect(results).toHaveNoViolations();
   });
+
+  it("configureAxe with multiple impactLevels catches violations at those levels", async () => {
+    // Link-name is "serious", image-alt is "critical" — both should surface
+    const customAxe = configureAxe({ impactLevels: ["critical", "serious"] });
+    const html = `<img src="#"><a href="#"></a>`;
+    const results = await customAxe(html);
+    expect(results.violations.length).toBeGreaterThan(0);
+  });
+
+  it("configureAxe with a disabled rule skips that rule", async () => {
+    const customAxe = configureAxe({
+      globalOptions: { rules: [{ id: "image-alt", enabled: false }] },
+    });
+    const html = `<img src="#">`;
+    const results = await customAxe(html);
+    expect(results.violations.every((v) => v.id !== "image-alt")).toBe(true);
+  });
+
+  it("configureAxe with runOnly limits which rules are evaluated", async () => {
+    const customAxe = configureAxe({
+      runOnly: { type: "rule", values: ["image-alt"] },
+    });
+    // Both image-alt and link-name would normally fire, but only image-alt runs
+    const html = `<img src="#"><a href="#"></a>`;
+    const results = await customAxe(html);
+    expect(results.violations.every((v) => v.id === "image-alt")).toBe(true);
+  });
 });
