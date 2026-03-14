@@ -24,7 +24,7 @@
   },
   "overrides": [
     {
-      "files": ["__tests__/**/*.js", "**/*.test.js"],
+      "files": ["**/__tests__/**/*.js", "**/*.test.js"],
       "plugins": ["vitest"]
     }
   ]

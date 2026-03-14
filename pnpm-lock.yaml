@@ -7,6 +7,27 @@ settings:
 importers:
 
   .:
+    devDependencies:
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
+      knip:
+        specifier: ^5.86.0
+        version: 5.86.0(@types/node@25.5.0)(typescript@5.9.3)
+      lint-staged:
+        specifier: ^16.0.0
+        version: 16.3.3
+      oxfmt:
+        specifier: ^0.40.0
+        version: 0.40.0
+      oxlint:
+        specifier: ^1.52.0
+        version: 1.55.0(oxlint-tsgolint@0.16.0)
+      oxlint-tsgolint:
+        specifier: ^0.16.0
+        version: 0.16.0
+
+  packages/vi-axe:
     dependencies:
       axe-core:
         specifier: 4.11.1
@@ -36,27 +57,9 @@ importers:
       '@vue/test-utils':
         specifier: ^2.2.1
         version: 2.4.6
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
       jsdom:
         specifier: ^28.1.0
         version: 28.1.0
-      knip:
-        specifier: ^5.86.0
-        version: 5.86.0(@types/node@25.5.0)(typescript@5.9.3)
-      lint-staged:
-        specifier: ^16.0.0
-        version: 16.3.3
-      oxfmt:
-        specifier: ^0.40.0
-        version: 0.40.0
-      oxlint:
-        specifier: ^1.52.0
-        version: 1.55.0(oxlint-tsgolint@0.16.0)
-      oxlint-tsgolint:
-        specifier: ^0.16.0
-        version: 0.16.0
       react:
         specifier: ^19.0.0
         version: 19.2.4
