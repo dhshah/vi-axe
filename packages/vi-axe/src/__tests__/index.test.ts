@@ -14,7 +14,7 @@ describe("index", () => {
     expect(results.violations).toHaveLength(0);
   });
 
-  it("returns no violations when no violations are found", async () => {
+  it("toHaveNoViolations passes for accessible HTML", async () => {
     const html = `<title>Hello</title>`;
     expect(await axe(html)).toHaveNoViolations();
   });
