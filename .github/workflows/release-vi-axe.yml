@@ -1,4 +1,4 @@
-name: release
+name: release-vi-axe
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
   id-token: write # npm trusted publisher (OIDC provenance)
 
 jobs:
-  release:
+  release-vi-axe:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -62,43 +62,23 @@ jobs:
           } > /tmp/new-changelog.md
           mv /tmp/new-changelog.md packages/vi-axe/CHANGELOG.md
 
-      - name: Commit, tag, and push
-        if: steps.check.outputs.has-commits == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          NEW_VERSION="${{ steps.version.outputs.new-version }}"
-          git add packages/vi-axe/package.json packages/vi-axe/CHANGELOG.md
-          git commit -m "chore: release vi-axe v$NEW_VERSION"
-          git tag "v$NEW_VERSION"
-          git push origin main --follow-tags
-
-      - name: Create GitHub Release
+      - name: Create release PR
         if: steps.check.outputs.has-commits == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v${{ steps.version.outputs.new-version }}" \
-            --title "v${{ steps.version.outputs.new-version }}" \
-            --notes-file /tmp/commits.txt
-
-      - uses: pnpm/action-setup@v4
-        if: steps.check.outputs.has-commits == 'true'
-        with:
-          run_install: false
-
-      - uses: actions/setup-node@v6
-        if: steps.check.outputs.has-commits == 'true'
-        with:
-          node-version: 24
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Install and build
-        if: steps.check.outputs.has-commits == 'true'
-        run: |
-          pnpm install --frozen-lockfile --filter vi-axe
-          pnpm run --filter vi-axe build
-
-      - name: Publish to npm
-        if: steps.check.outputs.has-commits == 'true'
-        run: pnpm publish --filter vi-axe --provenance --no-git-checks
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+          BRANCH="release-vi-axe/v$NEW_VERSION"
+          git checkout -b "$BRANCH"
+          git add packages/vi-axe/package.json packages/vi-axe/CHANGELOG.md
+          git commit -m "chore: release vi-axe v$NEW_VERSION"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: release vi-axe v$NEW_VERSION" \
+            --body-file /tmp/commits.txt \
+            --base main \
+            --head "$BRANCH"
+          # Enable auto-merge if the repo has it turned on
+          gh pr merge "$BRANCH" --auto --squash || true
