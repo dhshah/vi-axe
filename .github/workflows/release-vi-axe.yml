@@ -1,0 +1,104 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write # push commits, tags, and create GitHub releases
+  id-token: write # npm trusted publisher (OIDC provenance)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # full history needed for git log since last tag
+
+      - name: Check for unreleased commits
+        id: check
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LATEST_TAG" ]; then
+            git log --pretty=format:"- %s" -- packages/vi-axe/ | head -20 > /tmp/commits.txt
+          else
+            git log "$LATEST_TAG"..HEAD --pretty=format:"- %s" -- packages/vi-axe/ > /tmp/commits.txt
+          fi
+          echo "latest-tag=$LATEST_TAG" >> "$GITHUB_OUTPUT"
+          if [ -s /tmp/commits.txt ]; then
+            echo "has-commits=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-commits=false" >> "$GITHUB_OUTPUT"
+            echo "No new commits since ${LATEST_TAG:-the beginning} — skipping release"
+          fi
+
+      - name: Bump patch version
+        if: steps.check.outputs.has-commits == 'true'
+        id: version
+        run: |
+          CURRENT=$(node -p "require('./packages/vi-axe/package.json').version")
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+          NEW="$MAJOR.$MINOR.$((PATCH + 1))"
+          node -e "
+            const fs = require('fs');
+            const p = './packages/vi-axe/package.json';
+            const pkg = JSON.parse(fs.readFileSync(p, 'utf8'));
+            pkg.version = '$NEW';
+            fs.writeFileSync(p, JSON.stringify(pkg, null, 2) + '\n');
+          "
+          echo "new-version=$NEW" >> "$GITHUB_OUTPUT"
+          echo "Bumping $CURRENT → $NEW"
+
+      - name: Update CHANGELOG
+        if: steps.check.outputs.has-commits == 'true'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+          DATE=$(date +%Y-%m-%d)
+          {
+            printf "# %s (%s)\n\n" "$NEW_VERSION" "$DATE"
+            cat /tmp/commits.txt
+            printf "\n\n"
+            cat packages/vi-axe/CHANGELOG.md
+          } > /tmp/new-changelog.md
+          mv /tmp/new-changelog.md packages/vi-axe/CHANGELOG.md
+
+      - name: Commit, tag, and push
+        if: steps.check.outputs.has-commits == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+          git add packages/vi-axe/package.json packages/vi-axe/CHANGELOG.md
+          git commit -m "chore: release vi-axe v$NEW_VERSION"
+          git tag "v$NEW_VERSION"
+          git push origin main --follow-tags
+
+      - name: Create GitHub Release
+        if: steps.check.outputs.has-commits == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.new-version }}" \
+            --title "v${{ steps.version.outputs.new-version }}" \
+            --notes-file /tmp/commits.txt
+
+      - uses: pnpm/action-setup@v4
+        if: steps.check.outputs.has-commits == 'true'
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        if: steps.check.outputs.has-commits == 'true'
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install and build
+        if: steps.check.outputs.has-commits == 'true'
+        run: |
+          pnpm install --frozen-lockfile --filter vi-axe
+          pnpm run --filter vi-axe build
+
+      - name: Publish to npm
+        if: steps.check.outputs.has-commits == 'true'
+        run: pnpm publish --filter vi-axe --provenance --no-git-checks
