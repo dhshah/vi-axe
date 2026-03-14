@@ -75,11 +75,14 @@ jobs:
           git checkout -b "$BRANCH"
           git add packages/vi-axe/package.json packages/vi-axe/CHANGELOG.md
           git commit -m "chore: release vi-axe v$NEW_VERSION"
-          git push origin "$BRANCH"
-          gh pr create \
-            --title "chore: release vi-axe v$NEW_VERSION" \
-            --body-file /tmp/commits.txt \
-            --base main \
-            --head "$BRANCH"
+          git push origin "$BRANCH" --force
+          # Create PR if one doesn't already exist for this branch
+          if ! gh pr view "$BRANCH" --json state -q '.state' 2>/dev/null | grep -q OPEN; then
+            gh pr create \
+              --title "chore: release vi-axe v$NEW_VERSION" \
+              --body-file /tmp/commits.txt \
+              --base main \
+              --head "$BRANCH"
+          fi
           # Enable auto-merge if the repo has it turned on
           gh pr merge "$BRANCH" --auto --squash || true
