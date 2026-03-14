@@ -23,7 +23,7 @@
       "oxlint --fix"
     ],
     "*.{json,md,yml,yaml,ts,tsx,js,jsx,cjs,mjs,cts,mts}": [
-      "oxfmt"
+      "oxfmt --no-error-on-unmatched-pattern"
     ]
   },
   "engines": {
