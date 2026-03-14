@@ -1,69 +1,22 @@
 {
-  "name": "vi-axe",
-  "version": "0.0.3",
-  "description": "Custom Vitest matcher for aXe for testing accessibility",
-  "keywords": [
-    "a11y",
-    "accessibility",
-    "axe",
-    "matcher",
-    "vitest"
-  ],
-  "license": "MIT",
-  "author": "Darshan Shah",
-  "repository": "dhshah/vi-axe",
-  "files": [
-    "dist"
-  ],
+  "name": "root",
+  "private": true,
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./extend-expect": {
-      "types": "./dist/extend-expect.d.ts",
-      "import": "./dist/extend-expect.js"
-    }
-  },
   "scripts": {
     "prepare": "husky",
-    "test": "vitest",
-    "build": "vite build",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "lint": "oxlint --type-aware --type-check",
+    "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "knip": "knip"
   },
-  "dependencies": {
-    "axe-core": "4.11.1",
-    "lodash.merge": "4.6.2"
-  },
   "devDependencies": {
-    "@testing-library/react": "^16.0.0",
-    "@testing-library/vue": "^8.0.0",
-    "@types/lodash.merge": "^4.6.9",
-    "@types/node": "^25.4.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vue/test-utils": "^2.2.1",
     "husky": "^9.1.7",
-    "jsdom": "^28.1.0",
     "knip": "^5.86.0",
     "lint-staged": "^16.0.0",
     "oxfmt": "^0.40.0",
     "oxlint": "^1.52.0",
-    "oxlint-tsgolint": "^0.16.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.9.3",
-    "unplugin-isolated-decl": "^0.15.7",
-    "vite": "^8.0.0",
-    "vitest": "^4.0.18",
-    "vue": "^3.2.41"
+    "oxlint-tsgolint": "^0.16.0"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [

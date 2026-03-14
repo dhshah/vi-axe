@@ -1,0 +1,59 @@
+{
+  "name": "vi-axe",
+  "version": "0.0.3",
+  "description": "Modern Vitest matcher for aXe for testing accessibility using axe-core",
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "axe",
+    "matcher",
+    "vitest"
+  ],
+  "license": "MIT",
+  "author": "Darshan Shah",
+  "repository": "dhshah/vi-axe",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./extend-expect": {
+      "types": "./dist/extend-expect.d.ts",
+      "import": "./dist/extend-expect.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "axe-core": "4.11.1",
+    "lodash.merge": "4.6.2"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/vue": "^8.0.0",
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "^25.4.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vue/test-utils": "^2.2.1",
+    "jsdom": "^28.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.9.3",
+    "unplugin-isolated-decl": "^0.15.7",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.18",
+    "vue": "^3.2.41"
+  },
+  "engines": {
+    "node": ">= 20.0.0"
+  }
+}
