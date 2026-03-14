@@ -1,0 +1,75 @@
+name: publish-vi-axe
+
+# Triggered automatically when a release/v* PR is merged into main.
+# Also supports manual dispatch for emergency use.
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # create tags and GitHub releases
+  id-token: write # npm trusted publisher (OIDC provenance)
+
+jobs:
+  publish-vi-axe:
+    # For PR trigger: only run when a release branch is merged (not closed/abandoned)
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       startsWith(github.event.pull_request.head.ref, 'release-vi-axe/v'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Check version against npm
+        id: check
+        run: |
+          CURRENT=$(node -p "require('./packages/vi-axe/package.json').version")
+          PUBLISHED=$(npm view vi-axe version 2>/dev/null || echo "0.0.0")
+          echo "version=$CURRENT" >> "$GITHUB_OUTPUT"
+          if [ "$CURRENT" != "$PUBLISHED" ]; then
+            echo "should-publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should-publish=false" >> "$GITHUB_OUTPUT"
+            echo "v$CURRENT already on npm — skipping"
+          fi
+
+      - name: Tag release
+        if: steps.check.outputs.should-publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+          gh release create "v$VERSION" \
+            --title "v$VERSION" \
+            --notes "$(sed -n "/^# $VERSION/,/^# /{ /^# $VERSION/d; /^# /q; p }" packages/vi-axe/CHANGELOG.md | sed '/^$/d')"
+
+      - uses: pnpm/action-setup@v4
+        if: steps.check.outputs.should-publish == 'true'
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        if: steps.check.outputs.should-publish == 'true'
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install and build
+        if: steps.check.outputs.should-publish == 'true'
+        run: |
+          pnpm install --frozen-lockfile --filter vi-axe
+          pnpm run --filter vi-axe build
+
+      - name: Publish to npm
+        if: steps.check.outputs.should-publish == 'true'
+        run: pnpm publish --filter vi-axe --provenance --no-git-checks
