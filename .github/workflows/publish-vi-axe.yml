@@ -47,11 +47,17 @@ jobs:
           VERSION="${{ steps.check.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "v$VERSION"
-          git push origin "v$VERSION"
-          gh release create "v$VERSION" \
-            --title "v$VERSION" \
-            --notes "$(sed -n "/^# $VERSION/,/^# /{ /^# $VERSION/d; /^# /q; p }" packages/vi-axe/CHANGELOG.md | sed '/^$/d')"
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "Tag v$VERSION already exists — skipping tag creation"
+          else
+            git tag "v$VERSION"
+            git push origin "v$VERSION"
+          fi
+          if ! gh release view "v$VERSION" >/dev/null 2>&1; then
+            gh release create "v$VERSION" \
+              --title "v$VERSION" \
+              --notes "$(sed -n "/^# $VERSION/,/^# /{ /^# $VERSION/d; /^# /q; p }" packages/vi-axe/CHANGELOG.md | sed '/^$/d')"
+          fi
 
       - uses: pnpm/action-setup@v4
         if: steps.check.outputs.should-publish == 'true'
