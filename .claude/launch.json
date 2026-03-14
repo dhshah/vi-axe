@@ -1,23 +1,4 @@
 {
   "version": "0.0.1",
-  "configurations": [
-    {
-      "name": "vi-axe test (watch)",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "vi-axe", "run", "test"],
-      "port": 51204
-    },
-    {
-      "name": "vi-axe test UI",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "vi-axe", "exec", "vitest", "--ui"],
-      "port": 51204
-    },
-    {
-      "name": "vi-axe-test (watch)",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "vi-axe-test", "run", "test"],
-      "port": 51205
-    }
-  ]
+  "configurations": []
 }

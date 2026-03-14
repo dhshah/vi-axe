@@ -39,6 +39,26 @@ function filterViolations(
   return violations;
 }
 
+const LINE_BREAK = "\n\n";
+const HORIZONTAL_LINE = "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500";
+
+function reporter(violationsToFormat: Result[]): string {
+  return violationsToFormat
+    .map((violation: Result) =>
+      violation.nodes
+        .map((node: NodeResult) => {
+          const selector = node.target.join(", ");
+          const expectedText = `Expected the HTML found at $('${selector}') to have no violations:${LINE_BREAK}`;
+          const helpUrlText = violation.helpUrl
+            ? `You can find more information on this issue here: \n${styleText("blue", violation.helpUrl)}`
+            : "";
+          return `${expectedText}${styleText("gray", node.html)}${LINE_BREAK}Received:${LINE_BREAK}${printReceived(`${violation.help} (${violation.id})`)}${LINE_BREAK}${styleText("yellow", node.failureSummary ?? "")}${LINE_BREAK}${helpUrlText}`;
+        })
+        .join(LINE_BREAK),
+    )
+    .join(LINE_BREAK + HORIZONTAL_LINE + LINE_BREAK);
+}
+
 /** Matcher result returned by toHaveNoViolations */
 interface MatcherResult {
   actual: Result[];
@@ -64,56 +84,18 @@ const toHaveNoViolations: ToHaveNoViolationsMatcher = {
       );
     }
 
-    const { toolOptions } = results;
-    let impactLevels: ImpactValue[] = [];
-    if (
-      toolOptions &&
-      "impactLevels" in toolOptions &&
-      toolOptions.impactLevels
-    ) {
-      ({ impactLevels } = toolOptions);
-    }
+    const impactLevels = results.toolOptions?.impactLevels;
     const filteredViolations = filterViolations(
       results.violations,
       impactLevels,
     );
 
-    const reporter = (violationsToFormat: Result[]): string => {
-      if (violationsToFormat.length === 0) {
-        return "";
-      }
-
-      const lineBreak = "\n\n";
-      const horizontalLine = "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500";
-
-      return violationsToFormat
-        .map((violation: Result) => {
-          const errorBody = violation.nodes
-            .map((node: NodeResult) => {
-              const selector = node.target.join(", ");
-              const expectedText = `Expected the HTML found at $('${selector}') to have no violations:${lineBreak}`;
-              let helpUrlText = "";
-              if (violation.helpUrl) {
-                helpUrlText = `You can find more information on this issue here: \n${styleText("blue", violation.helpUrl)}`;
-              }
-              return `${expectedText}${styleText("gray", node.html)}${lineBreak}Received:${lineBreak}${printReceived(`${violation.help} (${violation.id})`)}${lineBreak}${styleText("yellow", node.failureSummary ?? "")}${lineBreak}${helpUrlText}`;
-            })
-            .join(lineBreak);
-
-          return errorBody;
-        })
-        .join(lineBreak + horizontalLine + lineBreak);
-    };
-
-    const formatedViolations = reporter(filteredViolations);
-    // Empty string = no violations
-    const pass = formatedViolations.length === 0;
-
+    const pass = filteredViolations.length === 0;
     const message = () => {
       if (pass) {
         return;
       }
-      return `${matcherHint(".toHaveNoViolations")}\n\n${formatedViolations}`;
+      return `${matcherHint(".toHaveNoViolations")}\n\n${reporter(filteredViolations)}`;
     };
 
     return { actual: filteredViolations, message, pass };

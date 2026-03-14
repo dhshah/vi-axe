@@ -18,6 +18,12 @@ type MountResult = [Element, () => void];
 
 const AXE_RULES_COLOR = axeCore.getRules(["cat.color"]);
 
+// Precomputed once — AXE_RULES_COLOR never changes after module load
+const DEFAULT_RULES = AXE_RULES_COLOR.map(({ ruleId: id }) => ({
+  enabled: false,
+  id,
+}));
+
 /**
  * Checks if the HTML parameter provided is a HTML element.
  * @param html a HTML element or a HTML string
@@ -88,13 +94,8 @@ export function configureAxe(options: ConfigureAxeOptions & RunOptions = {}) {
 
   // Color contrast checking doesnt work in a jsdom environment.
   // So we need to identify them and disable them by default.
-  const defaultRules = AXE_RULES_COLOR.map(({ ruleId: id }) => ({
-    enabled: false,
-    id,
-  }));
-
   axeCore.configure({
-    rules: [...defaultRules, ...rules],
+    rules: [...DEFAULT_RULES, ...rules],
     ...otherGlobalOptions,
   });
 
@@ -120,8 +121,9 @@ export function configureAxe(options: ConfigureAxeOptions & RunOptions = {}) {
           restore();
           if (err) {
             reject(err);
+          } else {
+            resolve(results);
           }
-          resolve(results);
         },
       );
     });
