@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^25.4.0",

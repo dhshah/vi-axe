@@ -29,4 +29,5 @@ jobs:
       - run: pnpm install --frozen-lockfile --filter vi-axe... --filter vi-axe-test...
       - run: pnpm run --filter vi-axe build
       - run: pnpm run --filter vi-axe test
+      - run: pnpm run --filter vi-axe-test check-types
       - run: pnpm run --filter vi-axe-test test
