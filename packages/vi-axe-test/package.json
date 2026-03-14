@@ -9,11 +9,11 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/node": "^25.4.0",
-    "jsdom": "^28.1.0",
-    "typescript": "^5.9.3",
+    "@types/node": "25.5.0",
+    "jsdom": "28.1.0",
+    "typescript": "5.9.3",
     "vi-axe": "workspace:*",
-    "vitest": "^4.0.18"
+    "vitest": "4.1.0"
   },
   "engines": {
     "node": ">= 20.0.0"
