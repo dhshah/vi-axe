@@ -16,7 +16,7 @@
     "lint-staged": "16.4.0",
     "oxfmt": "0.42.0",
     "oxlint": "1.57.0",
-    "oxlint-tsgolint": "0.18.0"
+    "oxlint-tsgolint": "0.18.1"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
