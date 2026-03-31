@@ -3,6 +3,8 @@
 
   "extends": ["config:recommended"],
 
+  "minimumReleaseAge": "1 day",
+
   "packageRules": [
     {
       "groupName": "all non-major dependencies",
