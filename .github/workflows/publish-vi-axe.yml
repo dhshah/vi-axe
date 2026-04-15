@@ -59,7 +59,7 @@ jobs:
               --notes "$(sed -n "/^# $VERSION/,/^# /{ /^# $VERSION/d; /^# /q; p }" packages/vi-axe/CHANGELOG.md | sed '/^$/d')"
           fi
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@v6
         if: steps.check.outputs.should-publish == 'true'
         with:
           run_install: false
