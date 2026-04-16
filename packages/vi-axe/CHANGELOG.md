@@ -1,3 +1,16 @@
+# 0.0.7 (2026-04-16)
+
+- fix(deps): update dependency axe-core to v4.11.3 (#80)
+- chore(deps): update dependency @types/node to v25.6.0 (#75)
+- chore(deps): update all non-major dependencies (#74)
+- chore(deps): update all non-major dependencies to v19.2.5 (#73)
+- chore(deps): update dependency vite to v8.0.7 (#71)
+- chore(deps): update all non-major dependencies (#70)
+- chore(deps): update all non-major dependencies (#69)
+- chore(deps): update all non-major dependencies (#68)
+- chore(deps): update all non-major dependencies (#67)
+- fix(deps): update all non-major dependencies (#63)
+
 # 0.0.6 (2026-03-27)
 
 - chore(deps): update all non-major dependencies (#59)
