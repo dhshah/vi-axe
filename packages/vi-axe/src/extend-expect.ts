@@ -15,8 +15,8 @@ interface AxeMatchers<TReturn = unknown> {
 }
 
 declare module "vitest" {
-  // oxlint-disable-next-line id-length
-  interface Matchers<T = any> extends AxeMatchers<T> {}
+  interface Matchers<T = unknown> extends AxeMatchers<T> {}
+  interface Assertion<T = unknown> extends AxeMatchers<T> {}
 }
 
 expect.extend(toHaveNoViolations as Parameters<typeof expect.extend>[0]);
