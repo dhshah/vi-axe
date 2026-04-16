@@ -1,3 +1,7 @@
+# 1.0.0 (2026-04-16)
+
+- Add support for vitest 4 (#83)
+
 # 0.0.7 (2026-04-16)
 
 - fix(deps): update dependency axe-core to v4.11.3 (#80)
