@@ -2,6 +2,16 @@ name: release-vi-axe
 
 on:
   workflow_dispatch:
+    inputs:
+      versionBump:
+        description: "Semantic version segment to increment"
+        required: false
+        default: patch
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
 
 permissions:
   contents: write # push branch and create tags
@@ -33,13 +43,23 @@ jobs:
             echo "No new commits since ${LATEST_TAG:-the beginning} — skipping release"
           fi
 
-      - name: Bump patch version
+      - name: Bump version
         if: steps.check.outputs.has-commits == 'true'
         id: version
+        env:
+          VERSION_BUMP: ${{ inputs.versionBump }}
         run: |
           CURRENT=$(node -p "require('./packages/vi-axe/package.json').version")
           IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-          NEW="$MAJOR.$MINOR.$((PATCH + 1))"
+          case "${VERSION_BUMP:-patch}" in
+            major) NEW="$((MAJOR + 1)).0.0" ;;
+            minor) NEW="$MAJOR.$((MINOR + 1)).0" ;;
+            patch) NEW="$MAJOR.$MINOR.$((PATCH + 1))" ;;
+            *)
+              echo "::error::Invalid versionBump '$VERSION_BUMP'. Expected major, minor, or patch." >&2
+              exit 1
+              ;;
+          esac
           node -e "
             const fs = require('fs');
             const p = './packages/vi-axe/package.json';
