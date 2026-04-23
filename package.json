@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "husky": "9.1.7",
-    "knip": "6.6.0",
+    "knip": "6.6.1",
     "lint-staged": "16.4.0",
     "oxfmt": "0.46.0",
     "oxlint": "1.61.0",
@@ -26,5 +26,5 @@
       "oxfmt --no-error-on-unmatched-pattern"
     ]
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.1"
 }
