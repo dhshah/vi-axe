@@ -12,6 +12,11 @@
       "matchPackageNames": ["*"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["@vue/test-utils"],
+      "allowedVersions": "<=2.4.6",
+      "description": "Pin to <=2.4.6: 2.4.7/2.4.8 introduced a regression (vuejs/test-utils#2700) where the onUnmount wrapper-removal hook fires after @testing-library/vue has already detached the element, producing NotFoundError on Node 24. Re-enable once 2.4.9 ships with the fix from vuejs/test-utils#2830."
     }
   ]
 }
