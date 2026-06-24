@@ -24,7 +24,7 @@ jobs:
     steps:
       # Use a PAT (RELEASE_WORKFLOW_TOKEN) so push/PR events trigger CI; the default
       # GITHUB_TOKEN does not. Add the secret under Settings → Secrets and variables → Actions.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # full history needed for git log since last tag
           token: ${{ secrets.RELEASE_WORKFLOW_TOKEN }}
