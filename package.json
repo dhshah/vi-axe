@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "husky": "9.1.7",
-    "knip": "6.18.0",
+    "knip": "6.20.0",
     "lint-staged": "17.0.8",
     "oxfmt": "0.56.0",
     "oxlint": "1.71.0",
