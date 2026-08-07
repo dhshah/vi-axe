@@ -33,7 +33,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "axe-core": "4.12.1",
+    "axe-core": "4.13.0",
     "lodash.merge": "4.6.2"
   },
   "devDependencies": {
