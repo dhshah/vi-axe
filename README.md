@@ -127,7 +127,7 @@ const axe = configureAxe({
 
 ## Requirements
 
-- **Node**: >= 20
+- **Node**: >= 22
 - **Vitest** with **jsdom** (or another DOM environment); axe needs a DOM to run.
 
 Color contrast rules are disabled by default in vi-axe because they do not work reliably in jsdom.
