@@ -42,7 +42,7 @@
     "@types/lodash.merge": "4.6.9",
     "@types/node": "25.9.5",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.5",
+    "@types/react-dom": "19.2.7",
     "@vue/test-utils": "2.4.11",
     "jsdom": "30.0.1",
     "react": "19.2.8",
