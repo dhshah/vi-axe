@@ -1,3 +1,19 @@
+# 1.2.0 (2026-10-01)
+
+- chore(deps): update dependency vitest to v5 (#213)
+- chore(deps): update all non-major dependencies (#234)
+- chore(deps): update dependency jsdom to v30.1.1 (#232)
+- chore(deps): update dependency knip to v6.37.0 (#229)
+- chore(deps): update dependency vue to v3.5.43 (#227)
+- chore(deps): update dependency jsdom to v30.1.0 (#226)
+- chore(deps): update dependency @types/node to v25.9.7 (#224)
+- chore(deps): update all non-major dependencies (#221)
+- chore(deps): update all non-major dependencies (#220)
+- chore(deps): update dependency @types/react-dom to v19.2.7 (#212)
+- chore(deps): update dependency @testing-library/react to v16.3.3 (#207)
+- chore(deps): update all non-major dependencies (#206)
+- chore(deps): update dependency jsdom to v30 (#184)
+
 # 1.1.0 (2026-08-27)
 
 - drop node 20 (#203)
