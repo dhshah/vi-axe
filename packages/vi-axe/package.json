@@ -11,7 +11,10 @@
   ],
   "license": "MIT",
   "author": "Darshan Shah",
-  "repository": "dhshah/vi-axe",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhshah/vi-axe.git"
+  },
   "files": [
     "dist"
   ],
