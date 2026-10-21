@@ -1,6 +1,6 @@
 {
   "name": "vi-axe",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Modern Vitest matcher for aXe for testing accessibility using axe-core",
   "keywords": [
     "a11y",
