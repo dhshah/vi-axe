@@ -1,3 +1,17 @@
+# 1.2.1 (2026-10-21)
+
+- chore(deps): update all non-major dependencies (#261)
+- chore(deps): update dependency jsdom to v30.1.3 (#259)
+- chore(deps): update all non-major dependencies to v19.3.1 (#258)
+- chore(deps): update all non-major dependencies (#257)
+- chore(deps): update dependency vitest to v5.0.4 (#256)
+- chore(deps): update dependency vite to v8.3.4 (#252)
+- fix(deps): update dependency axe-core to v4.14.0 (#250)
+- chore(deps): update dependency jsdom to v30.1.2 (#248)
+- chore(deps): update dependency @types/node to v25.9.9 (#245)
+- chore(deps): update dependency vite to v8.3.2 (#244)
+- Update repo in package.json (#243)
+
 # 1.2.0 (2026-10-01)
 
 - chore(deps): update dependency vitest to v5 (#213)
