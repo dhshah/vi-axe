@@ -1,5 +1,5 @@
-import { axe, configureAxe, toHaveNoViolations } from "vi-axe";
 import type { AxeResultsLike } from "vi-axe";
+import { axe, configureAxe, toHaveNoViolations } from "vi-axe";
 
 describe("vi-axe exported types", () => {
   it("axe accepts an HTML string", () => {
@@ -36,8 +36,8 @@ describe("vi-axe exported types", () => {
   });
 
   it("AxeResultsLike violations is optional", () => {
-    const withoutViolations: AxeResultsLike = {};
-    const withViolations: AxeResultsLike = { violations: [] };
+    const withoutViolations: AxeResultsLike = {},
+      withViolations: AxeResultsLike = { violations: [] };
     expect(withoutViolations).toBeDefined();
     expect(withViolations).toBeDefined();
   });
@@ -48,8 +48,8 @@ describe("vi-axe exported types", () => {
   });
 
   it("expect(results).toHaveNoViolations() is typed via extend-expect", async () => {
-    const html = `<title>Hello</title>`;
-    const results = await axe(html);
+    const html = `<title>Hello</title>`,
+      results = await axe(html);
     // TypeScript should accept this call without errors
     expect(results).toHaveNoViolations();
   });
